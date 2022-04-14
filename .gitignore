@@ -3,6 +3,7 @@
 *.layout
 *.kdev4
 .idea
+.vscode/
 
 # Generated files
 obj/
