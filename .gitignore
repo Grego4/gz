@@ -2,6 +2,7 @@
 *.cbp
 *.layout
 *.kdev4
+.idea
 
 # Generated files
 obj/

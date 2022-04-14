@@ -41,6 +41,15 @@ enum hit_view_state
   HITVIEW_STOPPING,
 };
 
+enum guard_view_state
+{
+    GUARDVIEW_INACTIVE,
+    GUARDVIEW_START,
+    GUARDVIEW_ACTIVE,
+    GUARDVIEW_STOP,
+    GUARDVIEW_STOPPING,
+};
+
 enum cull_view_state
 {
   CULLVIEW_INACTIVE,
@@ -201,6 +210,7 @@ struct gz
   int64_t               timer_counter_prev;
   enum col_view_state   col_view_state;
   enum hit_view_state   hit_view_state;
+  int                   guard_view_state;
   enum cull_view_state  cull_view_state;
   enum path_view_state  path_view_state;
   _Bool                 noclip_on;
@@ -273,6 +283,7 @@ void          gz_vcont_get(int port, z64_input_t *input);
 void          gz_col_view(void);
 void          gz_hit_view(void);
 void          gz_cull_view(void);
+void          gz_guard_view(void);
 void          gz_path_view(void);
 
 void          gz_update_cam(void);
