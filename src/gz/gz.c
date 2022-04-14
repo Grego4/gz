@@ -401,6 +401,7 @@ static void main_hook(void)
   gz_cull_view();
   gz_guard_view();
   gz_path_view();
+  gz_holl_view();
 
   /* execute free camera in view mode */
   gz_free_view();
@@ -993,8 +994,8 @@ HOOK void guPerspectiveF_hook(MtxF *mf)
     /* overwrite the scale argument in guPerspectiveF */
     /* this assumes that mf is at 0($sp) on entry, which should be true */
     __asm__ ("la      $t0, 0x3F800000;"
-             "sw      $t0, 0x0048 + %0;"
-             :: "R"(mf) : "t0");
+             "sw      $t0, 0x0048($sp);"
+             ::: "t0");
   }
   mf->xx = 1.f;
   mf->xy = 0.f;
@@ -1089,6 +1090,7 @@ static void init(void)
   gz.cull_view_state = CULLVIEW_INACTIVE;
   gz.path_view_state = PATHVIEW_INACTIVE;
   gz.guard_view_state = GUARDVIEW_INACTIVE;
+  gz.holl_view_state = HOLLVIEW_INACTIVE;
   gz.noclip_on = 0;
   gz.hide_rooms = 0;
   gz.hide_actors = 0;
