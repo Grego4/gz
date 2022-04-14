@@ -86,6 +86,27 @@ static int col_view_proc(struct menu_item *item,
   return 0;
 }
 
+static int holl_view_proc(struct menu_item *item,
+                         enum menu_callback_reason reason,
+                         void *data)
+{
+  if (reason == MENU_CALLBACK_SWITCH_ON) {
+    if (gz.holl_view_state == HOLLVIEW_INACTIVE)
+      gz.holl_view_state = HOLLVIEW_START;
+  }
+  else if (reason == MENU_CALLBACK_SWITCH_OFF) {
+    if (gz.holl_view_state != HOLLVIEW_INACTIVE)
+      gz.holl_view_state = HOLLVIEW_BEGIN_STOP;
+  }
+  else if (reason == MENU_CALLBACK_THINK) {
+    _Bool state = gz.holl_view_state == HOLLVIEW_START ||
+                  gz.holl_view_state == HOLLVIEW_ACTIVE;
+    if (menu_checkbox_get(item) != state)
+      menu_checkbox_set(item, state);
+  }
+  return 0;
+}
+
 static int holl_view_xlu_proc(struct menu_item *item,
                               enum menu_callback_reason reason,
                               void *data)
@@ -614,9 +635,6 @@ struct menu *gz_scene_menu(void)
   menu_add_checkbox(&collision, 16, 14, hit_view_xlu_proc, NULL);
   menu_add_static(&collision, 2, 15, "shaded", 0xC0C0C0);
   menu_add_checkbox(&collision, 16, 15, hit_view_shade_proc, NULL);
-  /* guard vision control */
-  menu_add_static(&collision, 19, 11, "guards view", 0xC0C0C0);
-  menu_add_checkbox(&collision, 32, 11, guard_view_proc, NULL);
   /* populate viewers menu */
   viewers.selector = menu_add_submenu(&viewers, 0, 0, NULL, "return");
   /* path view controls */
@@ -635,6 +653,9 @@ struct menu *gz_scene_menu(void)
   menu_add_checkbox(&viewers, 16, 6, holl_view_xlu_proc, NULL);
   menu_add_static(&viewers, 2, 7, "show inactive", 0xC0C0C0);
   menu_add_checkbox(&viewers, 16, 7, holl_view_all_proc, NULL);
+    /* guard vision control */
+    menu_add_static(&viewers, 0, 8, "show guards view", 0xC0C0C0);
+    menu_add_checkbox(&viewers, 16, 8, guard_view_proc, NULL);
 
   /* populate camera menu */
   camera.selector = menu_add_submenu(&camera, 0, 0, NULL, "return");
