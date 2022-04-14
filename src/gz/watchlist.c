@@ -355,7 +355,7 @@ int watchlist_add(struct menu_item *item, uint32_t address,
 {
   struct item_data *list = item->data;
   int pos = list->members.size;
-  if (add_member(list, address, type, pos, 1, 0, 0, 0))
+  if (add_member(list, address, type, pos, 1, 0, 0, 0, 0, 0))
     return pos;
   else
     return -1;

@@ -774,7 +774,7 @@ struct menu *gz_macro_menu(void)
   /* display rerecord count */
   menu_add_static(&menu, 0, 15, "rerecords:", 0xC0C0C0);
   menu_add_watch(&menu, 11, 15, (uint32_t)&gz.movie_rerecords,
-                 WATCH_TYPE_U32);
+                 WATCH_TYPE_U32, 0, 0);
   /* create settings controls */
   menu_add_submenu(&menu, 0, 16, &menu_settings, "settings");
   /* create virtual controller controls */
