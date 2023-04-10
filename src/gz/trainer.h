@@ -62,8 +62,15 @@ struct sidehop
 struct hover
 {
   _Bool     backflipping;
+  float   link_initial_x;
+  float   link_final_x;
   float   link_initial_y;
   float   link_final_y;
+  float   link_initial_z;
+  float   link_final_z;
+  float   link_x_traveled;
+  float   link_z_traveled;
+
 };
 
 struct equip_swap

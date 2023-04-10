@@ -228,8 +228,6 @@ _Bool update_sidehop()
 
 _Bool update_hover()
 {
-  // *(float*)0x80700000=hover.link_final_y;
-  // *(float*)0x80700004=hover.link_initial_y;
   if (is_backflipping())
   {
     if (hover.backflipping)
@@ -239,7 +237,9 @@ _Bool update_hover()
     else
     {
       hover.backflipping = 1;
+      hover.link_initial_x = z64_link.common.pos_2.x;
       hover.link_initial_y = z64_link.common.pos_2.y;
+      hover.link_initial_z = z64_link.common.pos_2.z;
      return 1;
     }
   }
@@ -247,7 +247,14 @@ _Bool update_hover()
   {
     if(hover.backflipping)
     {
+      hover.link_final_x = z64_link.common.pos_2.x;
       hover.link_final_y = z64_link.common.pos_2.y;
+      hover.link_final_z = z64_link.common.pos_2.z;
+
+      //algebra to calculate first part of linear distance
+      hover.link_x_traveled = pow(fabs(hover.link_final_x-hover.link_initial_x),2);
+      hover.link_z_traveled = pow(fabs(hover.link_final_z-hover.link_initial_z),2);
+
       hover.backflipping = 0;
       return 1;
     }

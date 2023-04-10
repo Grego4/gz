@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include "gfx.h"
 #include "gz.h"
 #include "menu.h"
@@ -228,7 +229,8 @@ static int hover_draw_proc(struct menu_item *item,
   update_hover();
   
   set_rgb_white();
-  gfx_printf(font, x, y + ch * 0, "hover: %.1f", hover.link_final_y - hover.link_initial_y);
+  gfx_printf(font, x, y + ch * 0, "height gained: %.1f", hover.link_final_y - hover.link_initial_y);
+  gfx_printf(font, x, y + ch * 1, "linear distance: %.3lf", sqrt(hover.link_x_traveled+hover.link_z_traveled));
 
   return 1;
 }
