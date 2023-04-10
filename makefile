@@ -184,8 +184,8 @@ endif
 $(OBJ-N64)            : CFLAGS               ?= -O2 -g -flto -ffat-lto-objects
 $(OBJ-N64)            : CXXFLAGS             ?= -O2 -g -flto -ffat-lto-objects
 $(ELF-N64)            : LDFLAGS              ?= -O2 -g -flto
-$(OBJ-VC)             : CFLAGS               ?= -Os -g -flto -ffat-lto-objects
-$(OBJ-VC)             : CXXFLAGS             ?= -Os -g -flto -ffat-lto-objects
-$(ELF-VC)             : LDFLAGS              ?= -Os -g -flto
+$(OBJ-VC)             : CFLAGS               ?= -O1 -g
+$(OBJ-VC)             : CXXFLAGS             ?= -O1 -g
+$(ELF-VC)             : LDFLAGS              ?= -O1 -g
 
 $(eval $(call bin_template,ldr,ldr,$(SRCDIR)/ldr,$(RESDIR)/ldr,$(OBJDIR)/ldr,$(BINDIR)/ldr,$(HOOKDIR)/ldr,$(LDR_ADDRESS)))
