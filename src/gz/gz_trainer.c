@@ -8,7 +8,7 @@
 #include "z64.h"
 #include "trainer.h"
 
-#define TRAINER_MENU_ITEM_COUNT 3
+#define TRAINER_MENU_ITEM_COUNT 4
 #define SIDEHOP_LOG_LENGTH 6
 // length of "perfect! (frame perfect)"
 #define SIDEHOP_LOG_STRING_LENGTH 25
@@ -212,6 +212,27 @@ static int equip_swap_draw_proc(struct menu_item *item,
   return 1;
 }
 
+static int hover_draw_proc(struct menu_item *item,
+                               struct menu_draw_params *draw_params)
+{
+  if (gz.menu_active)
+    return 1;
+
+  gfx_mode_set(GFX_MODE_COLOR, GPACK_RGB24A8(draw_params->color,
+                                             draw_params->alpha));
+  struct gfx_font *font = draw_params->font;
+  int ch = menu_get_cell_height(item->owner, 1);
+  int x = draw_params->x;
+  int y = draw_params->y;
+
+  update_hover();
+  
+  set_rgb_white();
+  gfx_printf(font, x, y + ch * 0, "hover: %.1f", hover.link_final_y - hover.link_initial_y);
+
+  return 1;
+}
+
 static int trainer_radio_button_toggle_proc(struct menu_item *item,
                       enum menu_callback_reason reason,
                       void *data)
@@ -266,6 +287,13 @@ struct menu *gz_trainer_menu(void)
   trainer_menu_data[index]->enabled = 0;
   menu_add_checkbox(&menu, 0, index + 1, trainer_radio_button_toggle_proc, (void*)index);
   menu_add_static(&menu, 2, index + 1, "equip swap trainer", 0xC0C0C0);
+  index += 1;
+
+  /*add hover training option*/
+  trainer_menu_data[index] = menu_add_static_custom(gz.menu_global, global_x, global_y, hover_draw_proc, NULL, 0xFFFFFF);
+  trainer_menu_data[index]->enabled = 0;
+  menu_add_checkbox(&menu, 0, index + 1, trainer_radio_button_toggle_proc, (void*)index);
+  menu_add_static(&menu, 2, index + 1, "hover trainer", 0xC0C0C0);
   index += 1;
 
   return &menu;

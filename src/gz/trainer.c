@@ -12,6 +12,7 @@
 
 struct roll roll;
 struct sidehop sidehop;
+struct hover hover;
 struct hess hess;
 struct equip_swap equip_swap;
 
@@ -26,6 +27,14 @@ _Bool is_rolling()
 _Bool is_sidehopping()
 {
   if((z64_link.current_animation == ANIM_SIDEHOP_L) || (z64_link.current_animation == ANIM_SIDEHOP_R))
+    return 1;
+  else
+    return 0;
+}
+
+_Bool is_backflipping()
+{
+  if((z64_link.current_animation == ANIM_BACKFLIP))
     return 1;
   else
     return 0;
@@ -215,6 +224,38 @@ _Bool update_sidehop()
   // manually store previous inputs
   sidehop.pad_prev = input_pad();
   return ret;
+}
+
+_Bool update_hover()
+{
+  // *(float*)0x80700000=hover.link_final_y;
+  // *(float*)0x80700004=hover.link_initial_y;
+  if (is_backflipping())
+  {
+    if (hover.backflipping)
+    {
+      return 1;
+    }
+    else
+    {
+      hover.backflipping = 1;
+      hover.link_initial_y = z64_link.common.pos_2.y;
+     return 1;
+    }
+  }
+  else
+  {
+    if(hover.backflipping)
+    {
+      hover.link_final_y = z64_link.common.pos_2.y;
+      hover.backflipping = 0;
+      return 1;
+    }
+    else
+    {
+      return 1;
+    }
+  }
 }
 
 void update_equip_swap()

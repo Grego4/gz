@@ -17,6 +17,7 @@ enum animation
   ANIM_LANDING_L   = 0x04002960,
   ANIM_SIDEHOP_R   = 0x04002988,
   ANIM_LANDING_R   = 0x04002998,
+  ANIM_BACKFLIP   = 0x040029D0,
 
 };
 
@@ -58,6 +59,13 @@ struct sidehop
   uint8_t   streak;
 };
 
+struct hover
+{
+  _Bool     backflipping;
+  float   link_initial_y;
+  float   link_final_y;
+};
+
 struct equip_swap
 {
   _Bool     changing_screen;
@@ -91,5 +99,6 @@ extern struct roll roll;
 extern struct sidehop sidehop;
 extern struct hess hess;
 extern struct equip_swap equip_swap;
+extern struct hover hover;
 
 #endif
